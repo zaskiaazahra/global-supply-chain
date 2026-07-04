@@ -6,85 +6,33 @@
 
 <div class="container-fluid">
 
-    <!-- SUMMARY CARD -->
-    <div class="row mb-4">
+<!-- ========================= -->
+<!-- SUMMARY CARD -->
+<!-- ========================= -->
 
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bi bi-globe2 summary-icon fs-1"></i>
-                    <div class="summary-number">{{ $totalCountries }}</div>
-                    <small class="text-muted">Countries</small>
-                </div>
-            </div>
-        </div>
+<div class="row mb-4">
 
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bi bi-box-seam summary-icon fs-1"></i>
-                    <div class="summary-number">0</div>
-                    <small class="text-muted">Active Shipment</small>
-                </div>
-            </div>
-        </div>
+    <!-- Countries -->
 
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bi bi-exclamation-triangle summary-icon fs-1"></i>
-                    <div class="summary-number">Low</div>
-                    <small class="text-muted">Risk Score</small>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-3 col-md-6 mb-3">
 
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bi bi-currency-dollar summary-icon fs-1"></i>
-                    <div class="summary-number">--</div>
-                    <small class="text-muted">USD / IDR</small>
-                </div>
-            </div>
-        </div>
+        <div class="card shadow-sm">
 
-    </div>
+            <div class="card-body text-center">
 
-    <!-- ROW 2 -->
-    <div class="row mb-4">
+                <i class="bi bi-globe2 summary-icon fs-1"></i>
 
-        <div class="col-lg-8 mb-3">
+                <div class="summary-number">
 
-            <div class="card h-100">
-
-                <div class="card-header">
-                    🚢 Live Shipment Tracking
-                </div>
-
-                <div class="card-body">
-
-                    <div id="shipmentMap" style="height:350px;border-radius:12px;"></div>
+                    {{ $totalCountries }}
 
                 </div>
 
-            </div>
+                <small class="text-muted">
 
-        </div>
+                    Countries
 
-        <div class="col-lg-4 mb-3">
-
-            <div class="card h-100">
-
-                <div class="card-header">
-                    📈 Exchange Rate Trend
-                </div>
-
-                <div class="card-body">
-
-                    <canvas id="exchangeChart"></canvas>
-
-                </div>
+                </small>
 
             </div>
 
@@ -92,44 +40,27 @@
 
     </div>
 
-    <!-- ROW 3 -->
-    <div class="row mb-4">
+    <!-- Shipment -->
 
-        <div class="col-lg-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3">
 
-            <div class="card">
+        <div class="card shadow-sm">
 
-                <div class="card-header">
-                    🌍 Country Overview
-                </div>
+            <div class="card-body text-center">
 
-                <div class="card-body">
+                <i class="bi bi-box-seam summary-icon fs-1"></i>
 
-                    <p class="text-muted">
-                        Select a country to display economy, weather, currency and political information.
-                    </p>
+                <div class="summary-number">
+
+                    0
 
                 </div>
 
-            </div>
+                <small class="text-muted">
 
-        </div>
+                    Active Shipment
 
-        <div class="col-lg-6 mb-3">
-
-            <div class="card">
-
-                <div class="card-header">
-                    🌦 Weather Alert
-                </div>
-
-                <div class="card-body">
-
-                    <p class="text-muted">
-                        No weather alerts available.
-                    </p>
-
-                </div>
+                </small>
 
             </div>
 
@@ -137,44 +68,67 @@
 
     </div>
 
-    <!-- ROW 4 -->
-    <div class="row">
+    <!-- Risk -->
 
-        <div class="col-lg-6 mb-3">
+    <div class="col-lg-3 col-md-6 mb-3">
 
-            <div class="card">
+        <div class="card shadow-sm">
 
-                <div class="card-header">
-                    📰 Latest Global News
-                </div>
+            <div class="card-body text-center">
 
-                <div class="card-body">
+                <i class="bi bi-exclamation-triangle summary-icon fs-1"></i>
 
-                    <p class="text-muted">
-                        Global trade news will appear here.
-                    </p>
+                <div class="summary-number text-success">
+
+                    Low
 
                 </div>
+
+                <small class="text-muted">
+
+                    Risk Score
+
+                </small>
 
             </div>
 
         </div>
 
-        <div class="col-lg-6 mb-3">
+    </div>
 
-            <div class="card">
+    <!-- Currency -->
 
-                <div class="card-header">
-                    ⚠ Risk Analysis
-                </div>
+    <div class="col-lg-3 col-md-6 mb-3">
 
-                <div class="card-body">
+        <div class="card shadow-sm">
 
-                    <p class="text-muted">
-                        Risk analysis based on weather, exchange rate and news.
-                    </p>
+            <div class="card-body text-center">
 
-                </div>
+                <i class="bi bi-currency-dollar summary-icon fs-1"></i>
+
+                @if(isset($exchangeRate['IDR']))
+
+                    <div class="summary-number">
+
+                        Rp {{ number_format($exchangeRate['IDR'],0,',','.') }}
+
+                    </div>
+
+                @else
+
+                    <div class="summary-number text-danger">
+
+                        API Error
+
+                    </div>
+
+                @endif
+
+                <small class="text-muted">
+
+                    Live USD / IDR
+
+                </small>
 
             </div>
 
@@ -184,95 +138,356 @@
 
 </div>
 
+<!-- ========================= -->
+<!-- MAP -->
+<!-- ========================= -->
+
+<div class="row mb-4">
+
+<div class="col-lg-8">
+
+<div class="card shadow-sm h-100">
+
+<div class="card-header">
+
+🚢 Live Shipment Tracking
+
+</div>
+
+<div class="card-body">
+
+<div id="shipmentMap"
+
+style="height:360px;border-radius:12px;">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- EXCHANGE -->
+
+<div class="col-lg-4">
+
+<div class="card shadow-sm h-100">
+
+<div class="card-header">
+
+📈 Exchange Rate Trend
+
+</div>
+
+<div class="card-body">
+
+<canvas id="exchangeChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- COUNTRY -->
+<!-- ========================= -->
+
+<div class="row mb-4">
+
+<div class="col-lg-6">
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+🌍 Country Overview
+
+</div>
+
+<div class="card-body">
+
+<p class="text-muted">
+
+Select a country to display GDP,
+Inflation, Weather,
+Currency and Economy.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+        <div class="col-lg-6">
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+🌦 Weather Alert
+
+</div>
+
+<div class="card-body">
+
+@if(isset($weather))
+
+<div class="row text-center">
+
+<div class="col-6 mb-3">
+
+<h6>🌡 Temperature</h6>
+
+<h4 class="fw-bold">
+
+{{ $weather['temperature_2m'] }} °C
+
+</h4>
+
+</div>
+
+<div class="col-6 mb-3">
+
+<h6>💨 Wind</h6>
+
+<h4 class="fw-bold">
+
+{{ $weather['wind_speed_10m'] }} km/h
+
+</h4>
+
+</div>
+
+<div class="col-6">
+
+<h6>🌧 Rain</h6>
+
+<h4 class="fw-bold">
+
+{{ $weather['rain'] }} mm
+
+</h4>
+
+</div>
+
+<div class="col-6">
+
+<h6>☁ Weather Code</h6>
+
+<h4 class="fw-bold">
+
+{{ $weather['weather_code'] }}
+
+</h4>
+
+</div>
+
+</div>
+
+@else
+
+<p class="text-danger">
+
+Weather data unavailable.
+
+</p>
+
+@endif
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- NEWS & RISK -->
+<!-- ========================= -->
+
+<div class="row">
+
+<div class="col-lg-6">
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+📰 Latest Global News
+
+</div>
+
+<div class="card-body">
+
+<p class="text-muted">
+
+News API will be integrated here.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+⚠ Risk Analysis
+
+</div>
+
+<div class="card-body">
+
+<div class="alert alert-success">
+
+Current Supply Chain Risk
+
+<br><br>
+
+<strong>
+
+LOW
+
+</strong>
+
+</div>
+
+<p class="text-muted">
+
+Risk Analysis will combine
+
+Weather,
+
+Currency,
+
+Economy
+
+and
+
+News API.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
 <!-- CHART -->
+<!-- ========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-const ctx = document.getElementById('exchangeChart');
+const ctx=document.getElementById('exchangeChart');
 
 new Chart(ctx,{
 
-    type:'line',
+type:'line',
 
-    data:{
+data:{
 
-        labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
 
-        datasets:[{
+datasets:[{
 
-            data:[16350,16320,16380,16410,16390,16420,16400],
+data:[16350,16320,16380,16410,16390,16420,16400],
 
-            borderColor:'#A67C52',
+borderColor:'#A67C52',
 
-            fill:false,
+fill:false,
 
-            tension:.4
+tension:.4
 
-        }]
+}]
 
-    },
+},
 
-    options:{
+options:{
 
-        plugins:{
+plugins:{
 
-            legend:{
-                display:false
-            }
+legend:{
 
-        },
+display:false
 
-        responsive:true
+}
 
-    }
+},
+
+responsive:true
+
+}
 
 });
 
+</script>
 
-// =======================
-// LEAFLET MAP
-// =======================
+<!-- ========================= -->
+<!-- LEAFLET -->
+<!-- ========================= -->
 
-var map = L.map('shipmentMap').setView([-2.5,118],5);
+<script>
+
+var map=L.map('shipmentMap').setView([-2.5,118],5);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 
-    attribution:'© OpenStreetMap'
+attribution:'© OpenStreetMap'
 
 }).addTo(map);
 
-
-// Marker
-
 L.marker([-6.2088,106.8456])
+
 .addTo(map)
+
 .bindPopup('Jakarta Port');
 
 L.marker([1.3521,103.8198])
+
 .addTo(map)
+
 .bindPopup('Singapore Port');
 
 L.marker([31.2304,121.4737])
+
 .addTo(map)
+
 .bindPopup('Shanghai Port');
-
-
-// Route
 
 var route=[
 
 [-6.2088,106.8456],
+
 [1.3521,103.8198],
+
 [31.2304,121.4737]
 
 ];
 
 L.polyline(route,{
 
-    color:'#A67C52',
+color:'#A67C52',
 
-    weight:4
+weight:4
 
 }).addTo(map);
 

@@ -72,3 +72,186 @@ body{
     font-weight:600;
     border-bottom:1px solid #eee;
 }
+.form-control[readonly]{
+
+    background:#F5EFE8;
+
+    border:1px solid #D8C3A5;
+
+    color:#5C4033;
+
+    font-weight:600;
+
+}
+.badge{
+
+    font-size:11px;
+
+    border-radius:20px;
+
+}
+.btn-brown{
+
+    background:#8B5E3C;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 25px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-brown:hover{
+
+    background:#6F472C;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+/* Brown Button */
+
+.btn-brown{
+
+    background:#8B5E3C;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 22px;
+
+    font-weight:600;
+
+}
+
+.btn-brown:hover{
+
+    background:#6F472C;
+
+    color:#fff;
+
+}
+
+/* Outline Brown */
+
+.btn-outline-brown{
+
+    color:#8B5E3C;
+
+    border:1px solid #8B5E3C;
+
+    background:white;
+
+}
+
+.btn-outline-brown:hover{
+
+    background:#8B5E3C;
+
+    color:white;
+
+}
+.badge{
+
+    border-radius:20px;
+
+    padding:7px 12px;
+
+    font-size:13px;
+
+}
+.btn-outline-brown{
+
+    color:#8B5E3C;
+
+    border:1px solid #8B5E3C;
+
+    background:white;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-outline-brown:hover{
+
+    background:#8B5E3C;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+.table tbody tr{
+
+    transition:.25s;
+
+}
+
+.table tbody tr:hover{
+
+    background:#F8F5F2;
+
+}
+.tracking-code{
+
+    font-family:monospace;
+
+    font-weight:700;
+
+    color:#5C4033;
+
+    letter-spacing:1px;
+
+}
+.summary-icon{
+
+    font-size:40px;
+
+    color:#8B5E3C;
+
+    margin-bottom:10px;
+
+}
+
+.card h2{
+
+    color:#5C4033;
+
+    font-weight:700;
+
+}
+#currencySearch{
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    box-shadow:none;
+
+    transition:.3s;
+
+}
+
+#currencySearch:focus{
+
+    border-color:#8B5E3C;
+
+    box-shadow:0 0 0 .15rem rgba(139,94,60,.15);
+
+}

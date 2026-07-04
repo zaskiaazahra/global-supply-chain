@@ -26,12 +26,12 @@
         Countries
     </a>
 
-    <a href="#">
+    <a href="/shipment" class="{{ request()->is('shipment') ? 'active-menu' : '' }}">
         <i class="bi bi-box-seam me-2"></i>
-        Shipment
+         Shipment
     </a>
 
-    <a href="#">
+    <a href="{{ url('/currency') }}">
         <i class="bi bi-currency-dollar me-2"></i>
         Currency
     </a>
