@@ -6,20 +6,24 @@ use Illuminate\Support\Facades\Http;
 
 class WeatherService
 {
-    public function getWeather($latitude, $longitude)
+    public function getCurrentWeather($lat, $lon)
     {
-        $url = "https://api.open-meteo.com/v1/forecast";
+        $response = Http::timeout(20)
+            ->connectTimeout(10)
+            ->get('https://api.open-meteo.com/v1/forecast', [
 
-        $response = Http::get($url, [
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'current' => 'temperature_2m,weather_code,wind_speed_10m,rain'
-        ]);
+                'latitude' => $lat,
 
-        if ($response->successful()) {
-            return $response->json()['current'];
-        }
+                'longitude' => $lon,
 
-        return null;
+                'current' => 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+
+                'daily' => 'weather_code,temperature_2m_max,temperature_2m_min',
+
+                'timezone' => 'auto'
+
+            ]);
+
+        return $response->json();
     }
 }

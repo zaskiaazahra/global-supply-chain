@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
 @section('content')
 
 @include('layouts.navbar')
@@ -180,7 +180,7 @@ $idr = $currencies->firstWhere('currency_code','IDR');
 
     <div class="table-responsive">
     
-    <table class="table table-hover align-middle mb-0">
+   <table id="currencyTable" class="table table-hover align-middle mb-0">
 
     <thead style="background:#FCF8F3;">
 
@@ -202,261 +202,63 @@ $idr = $currencies->firstWhere('currency_code','IDR');
 
     </thead>
 
-    <tbody id="currencyTable">
+   <tbody>
 
-        <tr>
+@foreach($currencies as $currency)
 
-            <td class="ps-4">
+<tr>
 
-                <div class="fw-semibold">
+    <td>
 
-                    🇮🇩 Indonesia
+<div class="d-flex align-items-center">
 
-                </div>
+<img
+src="{{ $currency->flag_url }}"
+width="32"
+height="22"
+class="rounded border me-3">
 
-                <small class="text-muted">
+<div>
 
-                    Indonesian Rupiah
+<div class="fw-semibold">
 
-                </small>
+{{ $currency->name }}
 
-            </td>
+</div>
 
-            <td>
+<small class="text-muted">
 
-                <span class="badge bg-light text-dark border">
+{{ $currency->currency_name }}
 
-                    IDR
+</small>
 
-                </span>
+</div>
 
-            </td>
+</div>
 
-            <td class="text-end pe-4 fw-semibold">
+</td>
 
-                Rp {{ number_format($idr->rate ?? 0,0,',','.') }}
+    <td>
 
-            </td>
+        <span class="badge bg-light text-dark border">
 
-        </tr>
+            {{ $currency->currency_code }}
 
-        <tr>
+        </span>
 
-            <td class="ps-4">
+    </td>
 
-                <div class="fw-semibold">
+    <td class="text-end pe-4 fw-semibold">
 
-                    🇪🇺 European Union
+        {{ number_format($currency->rate,2) }}
 
-                </div>
+    </td>
 
-                <small class="text-muted">
+</tr>
 
-                    Euro
+@endforeach
 
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    EUR
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                € {{ number_format($rates['EUR'],2) }}
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td class="ps-4">
-
-                <div class="fw-semibold">
-
-                    🇯🇵 Japan
-
-                </div>
-
-                <small class="text-muted">
-
-                    Japanese Yen
-
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    JPY
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                ¥ {{ number_format($rates['JPY'],2) }}
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td class="ps-4">
-
-                <div class="fw-semibold">
-
-                    🇬🇧 United Kingdom
-
-                </div>
-
-                <small class="text-muted">
-
-                    British Pound
-
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    GBP
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                £ {{ number_format($rates['GBP'],2) }}
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td class="ps-4">
-
-                <div class="fw-semibold">
-
-                    🇸🇬 Singapore
-
-                </div>
-
-                <small class="text-muted">
-
-                    Singapore Dollar
-
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    SGD
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                S$ {{ number_format($rates['SGD'],2) }}
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td class="ps-4">
-
-                <div class="fw-semibold">
-
-                    🇨🇳 China
-
-                </div>
-
-                <small class="text-muted">
-
-                    Chinese Yuan
-
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    CNY
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                ¥ {{ number_format($rates['CNY'],2) }}
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td class="ps-4">
-
-                <div class="fw-semibold">
-
-                    🇲🇾 Malaysia
-
-                </div>
-
-                <small class="text-muted">
-
-                    Malaysian Ringgit
-
-                </small>
-
-            </td>
-
-            <td>
-
-                <span class="badge bg-light text-dark border">
-
-                    MYR
-
-                </span>
-
-            </td>
-
-            <td class="text-end pe-4 fw-semibold">
-
-                RM {{ number_format($rates['MYR'],2) }}
-
-            </td>
-
-        </tr>
-
-    </tbody>
+</tbody>
 
 </table>
 
@@ -550,75 +352,111 @@ $idr = $currencies->firstWhere('currency_code','IDR');
 
     </div>
 
-    <!-- Converter -->
+    <!-- ========================= -->
+<!-- CURRENCY CONVERTER -->
+<!-- ========================= -->
 
-    <div class="col-lg-5">
+<div class="col-lg-5">
 
-        <div class="card border-0 shadow-sm h-100">
+    <div class="card converter-card border-0 shadow-sm h-100">
 
-            <div class="card-header bg-white border-0 pt-4">
+        <div class="card-header bg-white border-0 pt-4">
 
-                <h5 class="fw-bold mb-0">
+            <h5 class="fw-bold mb-0">
+                💱 Currency Converter
+            </h5>
 
-                    💱 Currency Converter
+        </div>
 
-                </h5>
+        <div class="card-body">
+
+            <!-- Currency -->
+            <div class="row align-items-end">
+
+                <!-- From -->
+                <div class="col-5">
+
+                    <label class="form-label fw-semibold">
+                        From
+                    </label>
+
+                    <select
+                        id="fromCurrency"
+                        class="form-select shadow-sm converter-select">
+
+                        @foreach($currencies as $currency)
+
+                            <option
+                                value="{{ $currency->currency_code }}"
+                                {{ $currency->currency_code == 'USD' ? 'selected' : '' }}>
+
+                                {{ $currency->currency_code }} - {{ $currency->currency_name }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+                <!-- Swap -->
+                <div class="col-2 text-center">
+
+                    <button
+                        id="swapCurrency"
+                        type="button"
+                        class="btn btn-light border shadow-sm rounded-circle swap-btn">
+
+                        ⇄
+
+                    </button>
+
+                </div>
+
+                <!-- To -->
+                <div class="col-5">
+
+                    <label class="form-label fw-semibold">
+                        To
+                    </label>
+
+                    <select
+                        id="toCurrency"
+                        class="form-select shadow-sm converter-select">
+
+                        @foreach($currencies as $currency)
+
+                            <option
+                                value="{{ $currency->currency_code }}"
+                                {{ $currency->currency_code == 'IDR' ? 'selected' : '' }}>
+
+                                {{ $currency->currency_code }} • {{ $currency->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </div>
 
             </div>
 
-            <div class="card-body">
+            <hr>
 
-                <div class="mb-3">
+            <div class="text-center">
 
-                    <label class="form-label">
-
-                        Amount
-
-                    </label>
-
-                    <input
-                        type="number"
-                        id="usd"
-                        class="form-control"
-                        value="1">
-
-                </div>
-
-                <div class="text-center my-3">
-
-                    <i class="bi bi-arrow-down-circle-fill text-secondary fs-4"></i>
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Indonesian Rupiah (IDR)
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="idr"
-                        class="form-control fw-semibold"
-                        readonly>
-
-                </div>
-
-                <hr>
-
-                <small class="text-muted">
-
-                    Current Rate
-
+                <small class="text-muted d-block mb-2">
+                    Converted Amount
                 </small>
 
-                <h5 class="fw-bold mt-2">
+                <h2
+                    id="conversionResult"
+                    class="fw-bold">
 
-                    Rp {{ number_format($idr->rate ?? 0,0,',','.') }}
+                    Rp 18.016,47
 
-                </h5>
+                </h2>
 
             </div>
 
@@ -627,28 +465,10 @@ $idr = $currencies->firstWhere('currency_code','IDR');
     </div>
 
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-const rate={{ $idr->rate ?? 0 }};
-
-const usd=document.getElementById('usd');
-
-const idr=document.getElementById('idr');
-
-function convert(){
-
-    idr.value="Rp "+(usd.value*rate).toLocaleString('id-ID');
-
-}
-
-convert();
-
-usd.addEventListener('keyup',convert);
-
-usd.addEventListener('change',convert);
 
 new Chart(document.getElementById('currencyChart'),{
 
@@ -703,7 +523,7 @@ new Chart(document.getElementById('currencyChart'),{
 <!-- CURRENCY INFORMATION -->
 <!-- ========================================= -->
 
-<div class="card border-0 shadow-sm mb-4">
+<div class="card border-0 shadow-sm mb-4 mt-4">
 
     <div class="card-header bg-white border-0 pt-4">
 
@@ -813,35 +633,180 @@ new Chart(document.getElementById('currencyChart'),{
 
 </div>
 
-<!-- Search -->
-
 <script>
+const currencySymbols = {
 
-const search = document.getElementById('currencySearch');
+    IDR: "Rp",
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    JPY: "¥",
+    CNY: "¥",
+    SGD: "S$",
+    MYR: "RM",
+    KRW: "₩",
+    THB: "฿",
+    VND: "₫",
+    PHP: "₱",
+    INR: "₹",
+    AUD: "A$",
+    CAD: "C$",
+    CHF: "CHF"
 
-if(search){
+};
+const exchangeRates = {
 
-    search.addEventListener('keyup', function(){
+@foreach($currencies as $currency)
 
-        let value = this.value.toLowerCase();
+'{{ $currency->currency_code }}': {{ $currency->rate }},
 
-        let rows = document.querySelectorAll('#currencyTable tr');
+@endforeach
 
-        rows.forEach(function(row){
+};
 
-            row.style.display = row.innerText.toLowerCase().includes(value)
-                ? ''
-                : 'none';
+const amountInput = document.getElementById('amount');
+
+const fromCurrency = document.getElementById('fromCurrency');
+
+const toCurrency = document.getElementById('toCurrency');
+
+const result = document.getElementById('conversionResult');
+
+function convertCurrency(){
+    console.log("MASUK FUNCTION");
+    const amount = parseFloat(amountInput.value) || 0;
+
+    const fromRate = exchangeRates[fromCurrency.value];
+
+    const toRate = exchangeRates[toCurrency.value];
+
+    const usd = amount / fromRate;
+
+    const converted = usd * toRate;
+
+    try{
+
+    if(toCurrency.value === "IDR"){
+
+    result.innerHTML =
+        "Rp " +
+        converted.toLocaleString('id-ID',{
+
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
 
         });
+
+}else{
+
+    result.innerHTML =
+        new Intl.NumberFormat('en',{
+
+            style:'currency',
+            currency:toCurrency.value
+
+        }).format(converted);
+
+}
+
+}catch(e){
+
+    result.innerHTML =
+    toCurrency.value + " " +
+    converted.toLocaleString('id-ID',{
+
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
 
     });
 
 }
+}
+
+if(amountInput && fromCurrency && toCurrency){
+
+    amountInput.addEventListener('input', convertCurrency);
+
+    fromCurrency.addEventListener('change', convertCurrency);
+
+    toCurrency.addEventListener('change', convertCurrency);
+
+    convertCurrency();
+
+}
+
+const swapBtn = document.getElementById('swapCurrency');
+
+if(swapBtn){
+
+    swapBtn.addEventListener('click', function(){
+
+        let temp = fromCurrency.value;
+
+        fromCurrency.value = toCurrency.value;
+
+        toCurrency.value = temp;
+
+        convertCurrency();
+
+    });
+
+}
+
 </script>
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script>
+
+$(document).ready(function () {
+
+    const table = $('#currencyTable').DataTable({
+
+        pageLength:5,
+
+        lengthMenu:[
+            [5,10,25,50],
+            [5,10,25,50]
+        ],
+
+        info:false
+
+    });
+
+    // sembunyikan search bawaan
+    $('#currencyTable_filter').hide();
+
+    // search dari textbox kita
+    $('#currencySearch').on('keyup', function(){
+
+        table.search($(this).val()).draw();
+
+    });
+
+});
+
+</script>
 <style>
+.converter-select{
 
+    height:48px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
 #currencySearch{
 
     border:1px solid #ddd;
@@ -889,6 +854,73 @@ if(search){
 .card{
 
     border-radius:14px;
+
+}
+/* ========================= */
+/* CONVERTER */
+/* ========================= */
+
+.converter-card{
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+}
+
+.converter-select{
+
+    height:48px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+}
+
+.converter-select option{
+
+    font-weight:500;
+
+}
+
+.swap-btn{
+
+    width:48px;
+
+    height:48px;
+
+    transition:.3s;
+
+    font-size:20px;
+
+}
+
+.swap-btn:hover{
+
+    background:#8B5E3C;
+
+    color:#fff;
+
+    transform:rotate(180deg);
+
+}
+
+#amount{
+
+    height:48px;
+
+    border-radius:12px;
+
+}
+
+#conversionResult{
+
+    font-size:34px;
+
+    color:#8B5E3C;
+
+    letter-spacing:.5px;
 
 }
 

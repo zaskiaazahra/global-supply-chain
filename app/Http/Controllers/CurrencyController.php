@@ -15,21 +15,25 @@ class CurrencyController extends Controller
 
         foreach ($rates as $code => $rate) {
 
-            $country = Country::where('currency_code', $code)->first();
+    $countries = Country::where('currency_code', $code)->get();
 
-            if ($country) {
+    foreach ($countries as $country) {
 
-                $country->rate = $rate;
+        $country->rate = $rate;
 
-                $currencies->push($country);
+        $currencies->push($country);
 
-            }
+    }
 
-        }
-
-       return view('currency.index', [
-    'currencies' => $currencies,
-    'rates' => $rates,
-]);
 }
+
+        $currencies = $currencies
+            ->sortBy('name')
+            ->values();
+
+        return view('currency.index', [
+            'currencies' => $currencies,
+            'rates' => $rates,
+        ]);
+    }
 }

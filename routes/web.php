@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ShipmentController;
@@ -20,3 +20,4 @@ Route::get('/shipment/{id}/edit', [ShipmentController::class,'edit']);
 Route::put('/shipment/{id}',[ShipmentController::class,'update']);
 Route::delete('/shipment/{id}',[ShipmentController::class,'destroy']);
 Route::get('/currency', [CurrencyController::class,'index']);
+Route::get('/weather', [WeatherController::class, 'index'])->name('weather');

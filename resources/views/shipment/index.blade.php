@@ -218,7 +218,8 @@
 
         <div class="card-body">
 
-            <table class="table table-hover align-middle">
+            <table id="currencyTable" 
+            class="table table-hover align-middle">
 
                 <thead>
 

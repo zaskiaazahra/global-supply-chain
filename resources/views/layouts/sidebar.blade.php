@@ -36,10 +36,14 @@
         Currency
     </a>
 
-    <a href="#">
-        <i class="bi bi-cloud-sun me-2"></i>
-        Weather
-    </a>
+    <a href="{{ route('weather') }}"
+class="{{ request()->is('weather') ? 'active-menu' : '' }}">
+
+    <i class="bi bi-cloud-sun me-2"></i>
+
+    Weather
+
+</a>
 
     <a href="#">
         <i class="bi bi-graph-up me-2"></i>
