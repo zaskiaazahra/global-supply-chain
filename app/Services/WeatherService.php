@@ -26,4 +26,18 @@ class WeatherService
 
         return $response->json();
     }
+
+    public function getWeatherByCountry($country)
+    {
+        $data = \App\Models\Country::where('name', $country)->first();
+
+        if (!$data) {
+            return null;
+        }
+
+        return $this->getCurrentWeather(
+            $data->latitude,
+            $data->longitude
+        );
+    }
 }

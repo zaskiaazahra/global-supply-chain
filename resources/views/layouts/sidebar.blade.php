@@ -45,21 +45,28 @@ class="{{ request()->is('weather') ? 'active-menu' : '' }}">
 
 </a>
 
-    <a href="#">
-        <i class="bi bi-graph-up me-2"></i>
-        Economy
-    </a>
+    <a href="{{ route('economy') }}"
+   class="{{ request()->is('economy') ? 'active-menu' : '' }}">
 
-    <a href="#">
-        <i class="bi bi-newspaper me-2"></i>
-        News
-    </a>
+    <i class="bi bi-graph-up me-2"></i>
 
-    <a href="#">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        Risk Analysis
-    </a>
+    Economy
 
+</a>
+
+    <a href="{{ route('news') }}" class="nav-link">
+    <i class="bi bi-newspaper"></i>
+    <span>News</span>
+</a>
+
+    <a href="{{ route('risk.index') }}"
+class="{{ request()->is('risk-analysis') ? 'active-menu' : '' }}">
+
+    <i class="bi bi-exclamation-triangle me-2"></i>
+
+    Risk Analysis
+
+</a>
     <a href="#">
         <i class="bi bi-bookmark-star me-2"></i>
         Watchlist

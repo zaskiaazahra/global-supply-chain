@@ -245,8 +245,7 @@ Currency and Economy.
 
 <h4 class="fw-bold">
 
-{{ $weather['temperature_2m'] }} °C
-
+{{ $currentWeather['temperature_2m'] }}
 </h4>
 
 </div>
@@ -257,19 +256,18 @@ Currency and Economy.
 
 <h4 class="fw-bold">
 
-{{ $weather['wind_speed_10m'] }} km/h
-
+{{ $currentWeather['wind_speed_10m'] }}
 </h4>
 
 </div>
 
 <div class="col-6">
 
-<h6>🌧 Rain</h6>
+<h6>💧 Humidity</h6>
 
 <h4 class="fw-bold">
 
-{{ $weather['rain'] }} mm
+{{ $currentWeather['relative_humidity_2m'] }} %
 
 </h4>
 
@@ -281,7 +279,7 @@ Currency and Economy.
 
 <h4 class="fw-bold">
 
-{{ $weather['weather_code'] }}
+{{ $currentWeather['weather_code'] }}
 
 </h4>
 

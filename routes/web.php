@@ -1,4 +1,7 @@
 <?php
+use App\Http\Controllers\RiskController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\EconomyController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CurrencyController;
@@ -21,3 +24,6 @@ Route::put('/shipment/{id}',[ShipmentController::class,'update']);
 Route::delete('/shipment/{id}',[ShipmentController::class,'destroy']);
 Route::get('/currency', [CurrencyController::class,'index']);
 Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
+Route::get('/economy', [EconomyController::class, 'index'])->name('economy');
+Route::get('/news', [NewsController::class,'index'])->name('news');
+Route::get('/risk-analysis', [RiskController::class, 'index'])->name('risk.index');

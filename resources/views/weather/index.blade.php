@@ -4,25 +4,28 @@
 
 @php
 
-function weatherStatus($code){
+if (!function_exists('weatherStatus')) {
 
-    return match(true){
+    function weatherStatus($code)
+    {
+        return match (true) {
 
-        $code == 0 => '☀️ Clear Sky',
+            $code == 0 => '☀️ Clear Sky',
 
-        in_array($code,[1,2,3]) => '🌤 Partly Cloudy',
+            in_array($code,[1,2,3]) => '🌤 Partly Cloudy',
 
-        in_array($code,[45,48]) => '🌫 Fog',
+            in_array($code,[45,48]) => '🌫 Fog',
 
-        $code >= 51 && $code <= 67 => '🌧 Rain',
+            $code >= 51 && $code <= 67 => '🌧 Rain',
 
-        $code >= 71 && $code <= 86 => '❄ Snow',
+            $code >= 71 && $code <= 86 => '❄ Snow',
 
-        $code >= 95 => '⛈ Thunderstorm',
+            $code >= 95 => '⛈ Thunderstorm',
 
-        default => '🌥 Cloudy'
+            default => '🌥 Cloudy'
 
-    };
+        };
+    }
 
 }
 
@@ -119,7 +122,7 @@ function weatherStatus($code){
 
                     <h2 class="fw-bold mt-2">
 
-                        {{ $weather['temperature_2m'] }}°C
+                        {{ $weather['temperature_2m'] }}
 
                     </h2>
 
@@ -149,7 +152,7 @@ function weatherStatus($code){
 
                     <h2 class="fw-bold mt-2">
 
-                        {{ $weather['relative_humidity_2m'] }}%
+                        {{ $weather['relative_humidity_2m'] }}
 
                     </h2>
 
@@ -209,7 +212,7 @@ function weatherStatus($code){
 
                     <h3 class="fw-bold">
 
-                    {{ weatherStatus($weather['weather_code']) }}
+                    {{ $weather['weather_code'] }}
 
                     </h3>
 
@@ -314,7 +317,6 @@ function weatherStatus($code){
                             <br>
 
                             {{ $weather['temperature_2m'] }} °C
-
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -334,7 +336,6 @@ function weatherStatus($code){
                             <br>
 
                             {{ $weather['wind_speed_10m'] }} km/h
-
                         </div>
 
                     </div>
@@ -504,31 +505,26 @@ else{
 
 </div>
 
-<h3 class="fw-bold">
-
-{{ round($forecast['temperature_2m_max'][$index]) }}°
-
-</h3>
-
-<small class="text-muted">
-
-High
-
-</small>
-
 <div class="mt-2">
 
-{{ round($forecast['temperature_2m_min'][$index]) }}°
+    <div class="fw-bold text-dark">
+        Maximum
+    </div>
+
+    <div class="fs-3 fw-bold">
+        {{ round($forecast['temperature_2m_max'][$index]) }}°C
+    </div>
+
+    <div class="mt-3 fw-bold text-secondary">
+        Minimum
+    </div>
+
+    <div class="fs-5">
+        {{ round($forecast['temperature_2m_min'][$index]) }}°C
+    </div>
 
 </div>
-
-<small class="text-muted">
-
-Low
-
-</small>
 </div>
-
 </div>
 
 @endforeach

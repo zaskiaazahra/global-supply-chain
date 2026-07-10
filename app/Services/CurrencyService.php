@@ -17,14 +17,30 @@ class CurrencyService
             ->get($url);
 
         if (!$response->successful()) {
-
             return [];
-
         }
 
         $data = $response->json();
 
         return $data['conversion_rates'] ?? [];
+    }
 
+    public function getCurrencyData($country)
+    {
+        if (!$country) {
+            return null;
+        }
+
+        $rates = $this->getRates();
+
+        $currencyCode = $country->currency_code;
+
+        return [
+
+            'code' => $currencyCode,
+
+            'rate' => $rates[$currencyCode] ?? null
+
+        ];
     }
 }

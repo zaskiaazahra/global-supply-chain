@@ -14,8 +14,7 @@ class DashboardController extends Controller
     public function __construct(
         CurrencyService $currencyService,
         WeatherService $weatherService
-    )
-    {
+    ) {
         $this->currencyService = $currencyService;
         $this->weatherService = $weatherService;
     }
@@ -25,16 +24,19 @@ class DashboardController extends Controller
         $totalCountries = Country::count();
 
         $exchangeRate = $this->currencyService->getRates();
-        
-        $weather = $this->weatherService->getWeather(
+
+        $weather = $this->weatherService->getCurrentWeather(
             -6.2088,
             106.8456
         );
 
+        $currentWeather = $weather['current'];
+
         return view('dashboard.index', compact(
             'totalCountries',
             'exchangeRate',
-            'weather'
+            'weather',
+            'currentWeather'
         ));
     }
 }
