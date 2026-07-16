@@ -35,62 +35,76 @@ class SentimentService
     ];
 
     public function analyze($articles)
-    {
-        $positive = 0;
-        $negative = 0;
+{
+    $positive = 0;
+    $negative = 0;
+    $neutral = 0;
 
-        foreach($articles as $article){
+    foreach($articles as $article){
 
-            $text = strtolower(
-                ($article['title'] ?? '') . ' ' .
-                ($article['description'] ?? '')
-            );
+        $text = strtolower(
+            ($article['title'] ?? '') . ' ' .
+            ($article['description'] ?? '')
+        );
 
-            foreach($this->positiveWords as $word){
+        $posFound = false;
+        $negFound = false;
 
-                if(str_contains($text,$word)){
+        foreach($this->positiveWords as $word){
 
-                    $positive++;
+            if(str_contains($text,$word)){
 
-                }
-
-            }
-
-            foreach($this->negativeWords as $word){
-
-                if(str_contains($text,$word)){
-
-                    $negative++;
-
-                }
+                $positive++;
+                $posFound = true;
 
             }
 
         }
 
-        if($positive > $negative){
+        foreach($this->negativeWords as $word){
 
-            $sentiment = 'Positive';
+            if(str_contains($text,$word)){
 
-        }elseif($negative > $positive){
+                $negative++;
+                $negFound = true;
 
-            $sentiment = 'Negative';
-
-        }else{
-
-            $sentiment = 'Neutral';
+            }
 
         }
 
-        return [
+        if(!$posFound && !$negFound){
 
-            'positive'=>$positive,
+            $neutral++;
 
-            'negative'=>$negative,
-
-            'sentiment'=>$sentiment
-
-        ];
+        }
 
     }
+
+    if($positive > $negative){
+
+        $sentiment = 'Positive';
+
+    }elseif($negative > $positive){
+
+        $sentiment = 'Negative';
+
+    }else{
+
+        $sentiment = 'Neutral';
+
+    }
+
+    return [
+
+        'positive' => $positive,
+
+        'negative' => $negative,
+
+        'neutral' => $neutral,
+
+        'sentiment' => $sentiment
+
+    ];
+
+}
 }

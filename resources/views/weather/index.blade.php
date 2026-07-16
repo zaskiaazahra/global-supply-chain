@@ -56,179 +56,63 @@ if (!function_exists('weatherStatus')) {
     <!-- SELECT COUNTRY -->
     <!-- ====================== -->
 
-    <div class="card border-0 shadow-sm mb-4">
+    <div class="row align-items-end">
 
-        <div class="card-body">
+    <div class="col-md-9">
 
-            <form method="GET">
+        <form method="GET">
 
-                <div class="row align-items-end">
+            <label class="fw-bold mb-2">
+                🌍 Select Country
+            </label>
 
-                    <div class="col-lg-7">
+            <select
+                name="country"
+                class="form-select"
+                onchange="this.form.submit()">
 
-    <label class="fw-semibold mb-2 d-block">
+                @foreach($countries as $country)
 
-        🌍 Select Country
+                    <option
+                        value="{{ $country->name }}"
+                        {{ $selected == $country->name ? 'selected' : '' }}>
 
-    </label>
+                        {{ $country->name }}
 
-    <select
-        id="countrySelect"
-        name="country">
+                    </option>
 
-        @foreach($countries as $item)
+                @endforeach
 
-        <option
-            value="{{ $item->name }}"
-            {{ $country->name == $item->name ? 'selected' : '' }}>
+            </select>
 
-            {{ $item->name }}
+        </form>
 
-        </option>
+    </div>
 
-        @endforeach
+    <div class="col-md-3">
 
-    </select>
+        <form action="{{ route('watchlist.store') }}" method="POST">
+
+            @csrf
+
+            <input
+                type="hidden"
+                name="country"
+                value="{{ $selected }}">
+
+            <button
+                class="btn w-100"
+                style="background:#8B5E3C;color:white;">
+
+                👁 Add to Watchlist
+
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-    @if($weather)
-
-    <!-- ====================== -->
-    <!-- SUMMARY CARD -->
-    <!-- ====================== -->
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-lg-3">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <div class="fs-1">
-
-                        🌡
-
-                    </div>
-
-                    <h2 class="fw-bold mt-2">
-
-                        {{ $weather['temperature_2m'] }}
-
-                    </h2>
-
-                    <small class="text-muted">
-
-                        Temperature
-
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <div class="fs-1">
-
-                        💧
-
-                    </div>
-
-                    <h2 class="fw-bold mt-2">
-
-                        {{ $weather['relative_humidity_2m'] }}
-
-                    </h2>
-
-                    <small class="text-muted">
-
-                        Humidity
-
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <div class="fs-1">
-
-                        🌬
-
-                    </div>
-
-                    <h2 class="fw-bold mt-2">
-
-                        {{ $weather['wind_speed_10m'] }}
-
-                    </h2>
-
-                    <small class="text-muted">
-
-                        km/h Wind Speed
-
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <div class="fs-1">
-
-                        ☁
-
-                    </div>
-
-                    <h3 class="fw-bold">
-
-                    {{ $weather['weather_code'] }}
-
-                    </h3>
-
-                    <p class="text-muted">
-
-                    Current Condition
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
         <!-- ====================== -->
     <!-- WEATHER STATUS -->
     <!-- ====================== -->
@@ -302,13 +186,27 @@ if (!function_exists('weatherStatus')) {
 
                         <div class="col-md-6 mb-3">
 
-                            <strong>Status</strong>
+    <strong>Current Condition</strong>
 
-                            <br>
+    <br>
 
-                            {{ $status }}
+    <span class="fs-5">
 
-                        </div>
+        {{ $status }}
+
+    </span>
+
+    <br>
+
+    <small class="text-muted">
+
+        Weather Code :
+
+        {{ $weather['weather_code'] }}
+
+    </small>
+
+</div>
 
                         <div class="col-md-6 mb-3">
 
@@ -331,12 +229,33 @@ if (!function_exists('weatherStatus')) {
 
                         <div class="col-md-6 mb-3">
 
-                            <strong>Wind Speed</strong>
+    <strong>Wind Speed</strong>
 
-                            <br>
+    <br>
 
-                            {{ $weather['wind_speed_10m'] }} km/h
-                        </div>
+    {{ $weather['wind_speed_10m'] }} km/h
+
+    <br>
+
+    <small class="text-muted">
+
+        @if($weather['wind_speed_10m'] < 15)
+
+            💨 Light Wind
+
+        @elseif($weather['wind_speed_10m'] < 30)
+
+            🌬 Moderate Wind
+
+        @else
+
+            🌪 Strong Wind
+
+        @endif
+
+    </small>
+
+</div>
 
                     </div>
 
@@ -391,9 +310,9 @@ else{
 @endphp
                 <div class="card-header bg-white border-0">
 
-                    <h5 class="fw-bold mb-0">
+                    <h5>
 
-                        🚢 Logistics Risk
+                    🚨 Weather Alert
 
                     </h5>
 
@@ -466,7 +385,7 @@ else{
 
     </div>
 
-@endif
+
 <!-- ====================== -->
 <!-- 7 DAYS FORECAST -->
 <!-- ====================== -->
@@ -501,7 +420,7 @@ else{
 
 <div class="display-6">
 
-🌤
+{{ weatherStatus($forecast['weather_code'][$index]) }}
 
 </div>
 

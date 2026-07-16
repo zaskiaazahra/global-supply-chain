@@ -345,7 +345,7 @@ class="rounded border me-3">
             <div class="card-body">
 
                 <canvas id="currencyChart" height="90"></canvas>
-
+                
             </div>
 
         </div>
@@ -445,7 +445,20 @@ class="rounded border me-3">
             <hr>
 
             <div class="text-center">
+                <div class="mb-3">
 
+    <label class="form-label fw-semibold">
+        Amount
+    </label>
+
+    <input
+        id="amount"
+        type="number"
+        class="form-control"
+        value="1"
+        min="1">
+
+</div>
                 <small class="text-muted d-block mb-2">
                     Converted Amount
                 </small>
@@ -480,21 +493,23 @@ new Chart(document.getElementById('currencyChart'),{
 
         datasets:[{
 
-            data:[17820,17835,17850,17870,17890,17910,{{ $idr->rate ?? 0 }}],
+            label:'USD / IDR',
 
-            borderColor:'#8B5E3C',
+data:@json($currencyTrend),
 
-            borderWidth:3,
+borderColor:'#8B5E3C',
 
-            pointRadius:4,
+backgroundColor:'rgba(139,94,60,.15)',
 
-            pointBackgroundColor:'#8B5E3C',
+fill:true,
 
-            fill:false,
+tension:.4,
 
-            tension:.35
+pointRadius:5,
 
-        }]
+pointHoverRadius:7
+
+}],
 
     },
 

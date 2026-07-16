@@ -10,46 +10,131 @@
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
 
-            <form method="GET">
+            <div class="row g-2 align-items-end">
 
-                <label class="fw-bold mb-2">
-                    🌍 Select Country
-                </label>
+    <div class="col-md-9">
 
-                <select
-                    class="form-select"
-                    name="country"
-                    onchange="this.form.submit()">
+        <form method="GET">
 
-                    @foreach($countries as $item)
+            <select
+                name="country"
+                class="form-select"
+                onchange="this.form.submit()">
 
-                        <option
-                            value="{{ $item->name }}"
-                            {{ $selected == $item->name ? 'selected' : '' }}>
+                @foreach($countries as $country)
 
-                            {{ $item->name }}
+                    <option
+                        value="{{ $country->name }}"
+                        {{ $selected == $country->name ? 'selected' : '' }}>
 
-                        </option>
+                        {{ $country->name }}
 
-                    @endforeach
+                    </option>
 
-                </select>
+                @endforeach
 
-            </form>
+            </select>
 
-        </div>
+        </form>
+
     </div>
 
+    <div class="col-md-3">
+
+        <form
+            action="{{ route('watchlist.store') }}"
+            method="POST">
+
+            @csrf
+
+            <input
+                type="hidden"
+                name="country"
+                value="{{ $selected }}">
+
+            <button
+                type="submit"
+                class="btn w-100"
+                style="background:#8B5E3C;color:white;">
+
+                👁 Add to Watchlist
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
     {{-- Header --}}
     <div class="mb-4">
 
         <h2 class="fw-bold">
             📰 Global News
         </h2>
+<div class="mt-3">
 
-        <p class="text-muted mb-0">
-            Economy • Logistics • Geopolitics
-        </p>
+<h5 class="fw-semibold text-secondary">
+
+Showing
+
+@if($category=='all')
+
+All Global News
+
+@else
+
+{{ ucfirst($category) }} News
+
+@endif
+
+</h5>
+
+</div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+
+<a
+href="?country={{ $selected }}&category=all"
+class="btn {{ $category=='all' ? 'btn-dark' : 'btn-outline-secondary' }}">
+
+All
+
+</a>
+
+<a
+href="?country={{ $selected }}&category=logistics"
+class="btn {{ $category=='logistics' ? 'btn-dark' : 'btn-outline-secondary' }}">
+
+🚢 Logistics
+
+</a>
+
+<a
+href="?country={{ $selected }}&category=trade"
+class="btn {{ $category=='trade' ? 'btn-dark' : 'btn-outline-secondary' }}">
+
+💰 Trade
+
+</a>
+
+<a
+href="?country={{ $selected }}&category=shipping"
+class="btn {{ $category=='shipping' ? 'btn-dark' : 'btn-outline-secondary' }}">
+
+📦 Shipping
+
+</a>
+
+<a
+href="?country={{ $selected }}&category=economy"
+class="btn {{ $category=='economy' ? 'btn-dark' : 'btn-outline-secondary' }}">
+
+📈 Economy
+
+</a>
+
+</div>
 
     </div>
 
@@ -175,7 +260,24 @@
     background:#6f472c;
     color:white;
 }
+.btn-dark{
 
+    background:#8B5E3C;
+    border-color:#8B5E3C;
+
+}
+
+.btn-dark:hover{
+
+    background:#6f472c;
+
+}
+
+.btn-outline-secondary{
+
+    border-radius:10px;
+
+}
 </style>
 
 @endsection

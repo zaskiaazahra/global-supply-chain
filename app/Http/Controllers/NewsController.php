@@ -16,13 +16,19 @@ class NewsController extends Controller
         $selected = request('country', 'Indonesia');
 
         // Ambil berita berdasarkan negara
-        $articles = $newsService->getNews($selected);
+        $category = request('category', 'all');
+
+        $articles = $newsService->getNews(
+        $selected,
+        $category
+      );
 
         // Kirim ke view
         return view('news.index', compact(
             'countries',
             'selected',
-            'articles'
+            'articles',
+            'category',
         ));
     }
 }

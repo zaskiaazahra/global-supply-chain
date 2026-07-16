@@ -32,6 +32,8 @@ class WeatherController extends Controller
 
     'countries' => $countries,
 
+    'selected' => $selected,
+
     'weather' => $weather['current'],
 
     'forecast' => $weather['daily']

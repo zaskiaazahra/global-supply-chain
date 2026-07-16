@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\RiskScore;
 use App\Services\WeatherService;
 use App\Services\CurrencyService;
 use App\Services\EconomyService;
@@ -154,6 +155,17 @@ if($sentiment['sentiment'] == 'Negative'){
             $riskLevel = "VERY HIGH";
 
         }
+        RiskScore::updateOrCreate(
+    ['country' => $selected],
+    [
+        'weather_risk' => $weatherRisk,
+        'inflation_risk' => $inflationRisk,
+        'currency_risk' => $currencyRisk,
+        'news_risk' => $newsRisk,
+        'total_risk' => $totalRisk,
+        'risk_level' => $riskLevel
+    ]
+);
 
         return view('risk.index', compact(
 

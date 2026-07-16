@@ -14,37 +14,64 @@ SELECT COUNTRY
 
     <div class="card-body">
 
-        <form method="GET">
+        <div class="d-flex align-items-end gap-3">
 
-            <label class="fw-bold mb-2">
+    <form method="GET" class="flex-grow-1">
 
-                🌍 Select Country
+        <label class="fw-bold mb-2">
+            🌍 Select Country
+        </label>
 
-            </label>
+        <select
+            class="form-select"
+            name="country"
+            onchange="this.form.submit()">
 
-            <select
-                class="form-select"
-                name="country"
-                onchange="this.form.submit()">
+            @foreach($countries as $item)
 
-                @foreach($countries as $item)
+                <option
+                    value="{{ $item->name }}"
+                    {{ $selected == $item->name ? 'selected' : '' }}>
 
-                    <option
-                        value="{{ $item->name }}"
-                        {{ $selected == $item->name ? 'selected' : '' }}>
+                    {{ $item->name }}
 
-                        {{ $item->name }}
+                </option>
 
-                    </option>
+            @endforeach
 
-                @endforeach
+        </select>
 
-            </select>
+    </form>
 
-        </form>
+    <form action="{{ route('watchlist.store') }}" method="POST">
 
-    </div>
+        @csrf
 
+        <input
+            type="hidden"
+            name="country"
+            value="{{ $selected }}">
+
+        <label class="fw-bold mb-2 d-block text-white">
+            .
+        </label>
+
+        <button
+            type="submit"
+            class="btn"
+            style="
+                background:#8B5E3C;
+                color:white;
+                height:38px;
+                min-width:190px;">
+
+            👁 Add to Watchlist
+
+        </button>
+
+    </form>
+
+</div>
 </div>
 
 {{-- =========================
@@ -59,31 +86,47 @@ RISK SCORE
 
 <div class="card-body text-center">
 
-<h5 class="fw-bold">
+<h5 class="text-muted mb-2">
 
-⚠ Risk Score
+{{ $selected }}
 
 </h5>
 
-<h1
-class="display-2 fw-bold
-@if($riskLevel=='LOW')
-text-success
-@elseif($riskLevel=='MEDIUM')
-text-warning
-@else
-text-danger
-@endif">
+@php
 
-{{ $totalRisk }}
+$scoreColor = match($riskLevel){
+
+    'LOW' => 'text-success',
+
+    'MEDIUM' => 'text-warning',
+
+    'HIGH' => 'text-danger',
+
+    'VERY HIGH' => 'text-danger',
+
+    default => 'text-secondary'
+
+};
+
+@endphp
+
+<h1 class="display-1 fw-bold {{ $scoreColor }}">
+
+    {{ $totalRisk }}
 
 </h1>
 
-<h3>
+<h3 class="fw-bold">
 
 {{ $riskLevel }}
 
 </h3>
+
+<p class="text-muted">
+
+Current Supply Chain Risk
+
+</p>
 
 <div class="progress mt-4"
 style="height:22px;">
@@ -122,13 +165,26 @@ style="width:{{ $totalRisk }}%;">
 
 </div>
 
+
 <div class="card-body">
 
 <table class="table">
 
 <tr>
 
-<td>🌦 Weather</td>
+<td>
+
+🌦 Weather
+
+<br>
+
+<small class="text-muted">
+
+{{ $weather['current']['temperature_2m'] ?? '-' }} °C
+
+</small>
+
+</td>
 
 <td class="text-end">
 
@@ -140,7 +196,19 @@ style="width:{{ $totalRisk }}%;">
 
 <tr>
 
-<td>📈 Inflation</td>
+<td>
+
+📈 Inflation
+
+<br>
+
+<small class="text-muted">
+
+{{ number_format($inflation['value'] ?? 0,2) }} %
+
+</small>
+
+</td>
 
 <td class="text-end">
 
@@ -152,7 +220,19 @@ style="width:{{ $totalRisk }}%;">
 
 <tr>
 
-<td>💱 Currency</td>
+<td>
+
+💱 Exchange Rate
+
+<br>
+
+<small class="text-muted">
+
+{{ $currency['code'] ?? '-' }}
+
+</small>
+
+</td>
 
 <td class="text-end">
 
@@ -164,7 +244,19 @@ style="width:{{ $totalRisk }}%;">
 
 <tr>
 
-<td>📰 News</td>
+<td>
+
+📰 News Sentiment
+
+<br>
+
+<small class="text-muted">
+
+{{ $sentiment['sentiment'] }}
+
+</small>
+
+</td>
 
 <td class="text-end">
 
@@ -360,7 +452,7 @@ DETAIL INFORMATION
     </div>
 
 </div>
-<div class="card border-0 shadow-sm mb-4">
+<div class="card shadow-sm mb-4">
 
     <div class="card-header bg-white fw-bold">
 
@@ -370,69 +462,73 @@ DETAIL INFORMATION
 
     <div class="card-body">
 
-        <div class="row text-center">
+        <div class="row text-center mb-4">
 
             <div class="col-md-4">
 
-                <h5 class="text-success">
-
+                <h2 class="text-success fw-bold">
                     {{ $sentiment['positive'] }}
+                </h2>
 
-                </h5>
-
-                <small>
-
-                    Positive Words
-
+                <small class="text-muted">
+                    Positive Articles
                 </small>
 
             </div>
 
             <div class="col-md-4">
 
-                <h5 class="text-danger">
+                <h2 class="text-secondary fw-bold">
+                    {{ $sentiment['neutral'] }}
+                </h2>
 
+                <small class="text-muted">
+                    Neutral Articles
+                </small>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h2 class="text-danger fw-bold">
                     {{ $sentiment['negative'] }}
+                </h2>
 
-                </h5>
-
-                <small>
-
-                    Negative Words
-
+                <small class="text-muted">
+                    Negative Articles
                 </small>
 
             </div>
 
-            <div class="col-md-4">
+        </div>
 
-                @if($sentiment['sentiment']=="Positive")
+        <div class="text-center">
 
-                    <span class="badge bg-success fs-6">
+            @if($sentiment['sentiment']=='Positive')
 
-                        Positive
+                <span class="badge bg-success px-4 py-2">
 
-                    </span>
+                    😊 Overall Positive
 
-                @elseif($sentiment['sentiment']=="Neutral")
+                </span>
 
-                    <span class="badge bg-warning text-dark fs-6">
+            @elseif($sentiment['sentiment']=='Negative')
 
-                        Neutral
+                <span class="badge bg-danger px-4 py-2">
 
-                    </span>
+                    ⚠ Overall Negative
 
-                @else
+                </span>
 
-                    <span class="badge bg-danger fs-6">
+            @else
 
-                        Negative
+                <span class="badge bg-warning text-dark px-4 py-2">
 
-                    </span>
+                    😐 Overall Neutral
 
-                @endif
+                </span>
 
-            </div>
+            @endif
 
         </div>
 
@@ -503,7 +599,7 @@ RECOMMENDATION
 
                             <li>Safe for Import Activities</li>
 
-                            <li>Continue shipment as planned</li>
+                            <li>Continue port location as planned</li>
 
                             <li>Monitor weather periodically</li>
 
@@ -545,7 +641,7 @@ RECOMMENDATION
 
                         <ul class="mb-0">
 
-                            <li>Delay shipment if possible</li>
+                            <li>Delay port location if possible</li>
 
                             <li>Review supplier strategy</li>
 
@@ -564,78 +660,6 @@ RECOMMENDATION
         </div>
 
     </div>
-
-</div>
-
-{{-- =========================
-RISK SUMMARY
-========================= --}}
-
-<div class="card border-0 shadow-sm">
-
-    <div class="card-header bg-white fw-bold">
-
-        📋 Risk Summary
-
-    </div>
-
-    <div class="card-body">
-
-        <div class="row text-center">
-
-            <div class="col-md-3">
-
-                <h6>Weather</h6>
-
-                <span class="badge bg-primary">
-
-                    {{ $weatherRisk }}
-
-                </span>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h6>Inflation</h6>
-
-                <span class="badge bg-warning text-dark">
-
-                    {{ $inflationRisk }}
-
-                </span>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h6>Currency</h6>
-
-                <span class="badge bg-info">
-
-                    {{ $currencyRisk }}
-
-                </span>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h6>News</h6>
-
-                <span class="badge bg-danger">
-
-                    {{ $newsRisk }}
-
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 </div>
 

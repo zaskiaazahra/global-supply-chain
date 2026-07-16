@@ -20,22 +20,15 @@
         <i class="bi bi-speedometer2 me-2"></i>
         Dashboard
     </a>
+    
+    <a href="{{ route('risk.index') }}"
+class="{{ request()->is('risk-analysis') ? 'active-menu' : '' }}">
 
-    <a href="/countries" class="{{ request()->is('countries') ? 'active-menu' : '' }}">
-        <i class="bi bi-globe2 me-2"></i>
-        Countries
-    </a>
+    <i class="bi bi-exclamation-triangle me-2"></i>
 
-    <a href="/shipment" class="{{ request()->is('shipment') ? 'active-menu' : '' }}">
-        <i class="bi bi-box-seam me-2"></i>
-         Shipment
-    </a>
+    Risk Analysis
 
-    <a href="{{ url('/currency') }}">
-        <i class="bi bi-currency-dollar me-2"></i>
-        Currency
-    </a>
-
+</a>
     <a href="{{ route('weather') }}"
 class="{{ request()->is('weather') ? 'active-menu' : '' }}">
 
@@ -45,31 +38,54 @@ class="{{ request()->is('weather') ? 'active-menu' : '' }}">
 
 </a>
 
-    <a href="{{ route('economy') }}"
-   class="{{ request()->is('economy') ? 'active-menu' : '' }}">
-
-    <i class="bi bi-graph-up me-2"></i>
-
-    Economy
-
-</a>
+    <a href="{{ url('/currency') }}">
+        <i class="bi bi-currency-dollar me-2"></i>
+        Currency
+    </a>
 
     <a href="{{ route('news') }}" class="nav-link">
     <i class="bi bi-newspaper"></i>
     <span>News</span>
 </a>
 
-    <a href="{{ route('risk.index') }}"
-class="{{ request()->is('risk-analysis') ? 'active-menu' : '' }}">
+    <a href="/port-location" class="{{ request()->is('port-location') ? 'active-menu' : '' }}">
+        <i class="bi bi-geo-alt-fill"></i>
+          Port Location
+    </a>
 
-    <i class="bi bi-exclamation-triangle me-2"></i>
+    <li>
 
-    Risk Analysis
+<a
+href="{{ route('comparison') }}"
+class="{{ request()->is('comparison')?'active-menu':'' }}">
+
+<i class="bi bi-bar-chart-fill me-2"></i>
+
+Country Comparison
 
 </a>
-    <a href="#">
-        <i class="bi bi-bookmark-star me-2"></i>
-        Watchlist
+
+</li>
+
+    <a href="{{ route('watchlist.index') }}"
+class="{{ request()->is('watchlist') ? 'active-menu' : '' }}">
+
+    <i class="bi bi-star-fill me-2"></i>
+
+    Watchlist
+
+</a>
+
+<li class="nav-item">
+
+    <a href="{{ route('visualization.index') }}"
+       class="nav-link {{ request()->is('visualization*') ? 'active' : '' }}">
+
+        <i class="bi bi-graph-up-arrow me-2"></i>
+        Data Visualization
+
     </a>
+
+</li>
 
 </div>

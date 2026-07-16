@@ -345,3 +345,12 @@ body{
     padding-left:16px;
     margin-bottom:10px;
 }
+.sidebar ul,
+.sidebar li{
+    list-style:none !important;
+}
+
+.sidebar li::before{
+    display:none !important;
+    content:none !important;
+}
